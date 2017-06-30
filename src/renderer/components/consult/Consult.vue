@@ -41,7 +41,23 @@
                     <label for="moblie">{{ customer.Mobile }}</label>
                     <label for="sex">{{ gender }}</label>
                     <label for="sex">{{ age }}</label>
-                    <Button type="success" size="small" icon="ios-paperplane" @click="OnClickTrunOver">转交</Button>
+                    <!--<Button type="success" size="small" icon="ios-paperplane" @click="OnClickTrunOver">转交</Button>-->
+                    <btn-modal v-model="trunoverToggle2" title="转交健管师" btn-text="转交" btn-type="success" btn-icon="ios-paperplane" btn-size="small" @on-ok="OnClickTrunOverOk" @on-cancel="OnClickTrunOverCancel">
+                      <Collapse v-model="trunoverValue">
+                        <Panel name="1">
+                          史蒂夫·乔布斯
+                          <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p>
+                        </Panel>
+                        <Panel name="2">
+                          斯蒂夫·盖瑞·沃兹尼亚克
+                          <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
+                        </Panel>
+                        <Panel name="3">
+                          乔纳森·伊夫
+                          <p slot="content">乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。</p>
+                        </Panel>
+                      </Collapse>
+                    </btn-modal>
                   </p>
                 </Card>
                 <div ref="userList" class="user-list" :style="{ height: contentHeight }">
@@ -68,11 +84,22 @@
               <div>
                 <Input v-model="formItem.textarea" @on-change="OnChangeMessage" type="textarea" :autosize="{minRows: 32,maxRows: 5}" placeholder="请输入您要发送的消息..."></Input>
                 <div class="send-bar">
-                  <Button type="dashed" icon="cube">商品推送</Button>
-                  <Button type="dashed" icon="compose">问卷推送</Button>
+                  <!--<Button type="dashed" icon="cube">商品推送</Button>-->
+                  <btn-modal v-model="pushGoodsToggle" title="商品推送" btn-text="商品推送" btn-type="dashed" btn-icon="cube">
+                    <div>Hellowwrr </div>
+                  </btn-modal>
+                  <!--<Button type="dashed" icon="compose">问卷推送</Button>
                   <Button type="dashed" icon="image">发送图片</Button>
-                  <Button type="dashed" icon="chatbox">发送短语</Button>
-                  <!--<Button type="text" icon="arrow-down-b"></Button>-->
+                  <Button type="dashed" icon="chatbox">发送短语</Button>-->
+                  <btn-modal v-model="pushQuestionToggle" title="问卷推送" btn-text="问卷推送" btn-type="dashed" btn-icon="compose">
+                    <div>Hellowwrr </div>
+                  </btn-modal>
+                  <btn-modal v-model="pushImageToggle" title="发送图片" btn-text="发送图片" btn-type="dashed" btn-icon="image">
+                    <div>Hellowwrr </div>
+                  </btn-modal>
+                  <btn-modal v-model="pushShortToggle" title="发送短语" btn-text="发送短语" btn-type="dashed" btn-icon="chatbox">
+                    <div>Hellowwrr </div>
+                  </btn-modal>
                   <Dropdown placement="top">
                     <a href="javascript:void(0)">
                       <Icon type="arrow-down-b"></Icon>
@@ -100,27 +127,12 @@
       <Tab-pane label="已处理" name="name2" icon="chatbubbles">已处理</Tab-pane>
       <Tab-pane label="转交问题" name="name3" icon="person-stalker">转交问题</Tab-pane>
     </Tabs>
-    <Modal v-model="trunoverToggle" title="转交健管师" @on-ok="OnClickTrunOverOk" @on-cancel="OnClickTrunOverCancel" :mask-closable="false">
-      <Collapse v-model="trunoverValue">
-        <Panel name="1">
-          史蒂夫·乔布斯
-          <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p>
-        </Panel>
-        <Panel name="2">
-          斯蒂夫·盖瑞·沃兹尼亚克
-          <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
-        </Panel>
-        <Panel name="3">
-          乔纳森·伊夫
-          <p slot="content">乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。</p>
-        </Panel>
-      </Collapse>
-    </Modal>
   </div>
 </template>
 
 <script>
 import { consultService as service } from '@/services'
+import { btnmodal } from '@/components/common'
 
 export default {
   name: 'consult',
@@ -157,6 +169,11 @@ export default {
         textarea: ''
       },
       trunoverToggle: false,
+      trunoverToggle2: false,
+      pushGoodsToggle: false,
+      pushQuestionToggle: false,
+      pushImageToggle: false,
+      pushShortToggle: false,
       trunoverValue: '1'
     }
   },
@@ -262,12 +279,14 @@ export default {
       this.trunoverToggle = true
     },
     OnClickTrunOverOk() {
+      debugger
       this.$Notice.open({
         title: '转交通知',
         desc: '您点击了转交通知保存！！'
       })
     },
     OnClickTrunOverCancel() {
+      debugger
       this.$Notice.open({
         title: '转交通知',
         desc: '您点击了转交通知取消！！'
@@ -286,6 +305,9 @@ export default {
         desc: `当前健管师编号${doctorId}`
       })
     }
+  },
+  components: {
+    'btn-modal': btnmodal
   }
 }
 </script>
