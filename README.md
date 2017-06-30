@@ -1,5 +1,7 @@
 # add npm package
 ```
+vue init simulatedgreg/electron-vue my-project
+
 npm i -S axios Base64 crypto-js iview
 npm i -D es6-promise
 ```
